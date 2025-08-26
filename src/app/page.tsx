@@ -2,22 +2,14 @@
 
 import { useState } from 'react';
 
-// Mendefinisikan tipe data untuk payload
-type PayloadType = {
-  url: string;
-  downloadMode: string | null;
-  videoQuality?: string; // Properti opsional
-  audioFormat?: string; // Properti opsional
-};
-
 export default function HomePage() {
   const [url, setUrl] = useState('');
   const [videoQuality, setVideoQuality] = useState('1080');
   const [audioFormat, setAudioFormat] = useState('mp3');
-  const [result, setResult] = useState<any | null>(null);
+  const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [downloadMode, setDownloadMode] = useState<string | null>(null);
+  const [error, setError] = useState(null);
+  const [downloadMode, setDownloadMode] = useState(null);
   const [showOptions, setShowOptions] = useState(false);
 
   const handleDownload = async () => {
@@ -30,10 +22,9 @@ export default function HomePage() {
     setError(null);
     setResult(null);
 
-    // Deklarasikan payload dengan tipe yang benar
-    const payload: PayloadType = {
+    const payload = {
       url: url,
-      downloadMode: downloadMode,
+      downloadMode: downloadMode
     };
 
     if (downloadMode === 'auto' || downloadMode === 'mute') {
@@ -61,7 +52,7 @@ export default function HomePage() {
       
       setResult(data);
 
-    } catch (err: any) {
+    } catch (err) {
       setLoading(false);
       setError(err.message);
     }
@@ -96,7 +87,7 @@ export default function HomePage() {
       return (
         <div>
           <h3 className="sub-heading">Pilih file untuk diunduh:</h3>
-          {result.picker.map((item: any, index: number) => (
+          {result.picker.map((item, index) => (
             <div key={index} className="result-item">
               <p>Tipe: {item.type}</p>
               <a 
