@@ -8,7 +8,7 @@ export default function HomePage() {
   const [audioFormat, setAudioFormat] = useState('mp3');
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const [downloadMode, setDownloadMode] = useState(null);
   const [showOptions, setShowOptions] = useState(false);
 
