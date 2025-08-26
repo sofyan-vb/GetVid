@@ -2,12 +2,13 @@
 
 import { useState } from 'react';
 
+ex
 // Mendefinisikan tipe data untuk payload
 type PayloadType = {
   url: string;
   downloadMode: string | null;
-  videoQuality?: string; // Properti opsional
-  audioFormat?: string; // Properti opsional
+  videoQuality?: string; 
+  audioFormat?: string; 
 };
 
 export default function HomePage() {
@@ -120,7 +121,8 @@ export default function HomePage() {
       <h1 className="heading">GetVid.id</h1>
       <p className="description">Unduh video dan audio dari berbagai platform dengan link.</p>
 
-      <div className="input-group">
+        <div className="input-group">
+        <span className="icon">🔗</span>
         <input 
           type="url" 
           id="url" 
