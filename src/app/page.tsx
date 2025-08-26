@@ -1,103 +1,191 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+import { useState } from 'react';
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+export default function HomePage() {
+  const [url, setUrl] = useState('');
+  const [videoQuality, setVideoQuality] = useState('1080');
+  const [audioFormat, setAudioFormat] = useState('mp3');
+  const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [downloadMode, setDownloadMode] = useState(null);
+  const [showOptions, setShowOptions] = useState(false);
+
+  const handleDownload = async () => {
+    if (!url) {
+      setError('Masukkan URL media terlebih dahulu.');
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+    setResult(null);
+
+    const payload = {
+      url: url,
+      downloadMode: downloadMode
+    };
+
+    if (downloadMode === 'auto' || downloadMode === 'mute') {
+      payload.videoQuality = videoQuality;
+    }
+    if (downloadMode === 'auto' || downloadMode === 'audio') {
+      payload.audioFormat = audioFormat;
+    }
+
+    try {
+      const response = await fetch('/api/download', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json();
+      setLoading(false);
+
+      if (!response.ok) {
+        throw new Error(data.error?.context?.message || data.error?.message || 'Terjadi kesalahan saat memproses permintaan.');
+      }
+      
+      setResult(data);
+
+    } catch (err) {
+      setLoading(false);
+      setError(err.message);
+    }
+  };
+
+  const renderResult = () => {
+    if (loading) {
+      return <p className="loading-message">Sedang memproses... Tunggu sebentar.</p>;
+    }
+    if (error) {
+      return <p className="error-message">Error: {error}</p>;
+    }
+    if (!result) {
+      return null;
+    }
+
+    if (result.status === 'redirect' || result.status === 'tunnel') {
+      const filename = result.filename || 'file-unduhan';
+      return (
+        <div className="result-item">
+          <a 
+            href={result.url} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            download={filename}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
+            Klik di sini untuk mengunduh: {filename}
           </a>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+      );
+    } else if (result.status === 'picker') {
+      return (
+        <div>
+          <h3 className="sub-heading">Pilih file untuk diunduh:</h3>
+          {result.picker.map((item, index) => (
+            <div key={index} className="result-item">
+              <p>Tipe: {item.type}</p>
+              <a 
+                href={item.url} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                download
+              >
+                Unduh {item.type}
+              </a>
+            </div>
+          ))}
+        </div>
+      );
+    }
+    return <p className="error-message">Respons tidak valid dari API.</p>;
+  };
+
+  return (
+    <div className="container">
+      <h1 className="heading">GetVid.id</h1>
+      <p className="description">Unduh video dan audio dari berbagai platform dengan link.</p>
+
+      <div className="input-group">
+        <input 
+          type="url" 
+          id="url" 
+          value={url} 
+          onChange={(e) => setUrl(e.target.value)} 
+          placeholder="Tempel link video Anda di sini..." 
+          required 
+        />
+      </div>
+
+      <div className="button-group">
+        <button 
+          className="btn-primary" 
+          onClick={() => { setDownloadMode('auto'); setShowOptions(true); }}
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+          Download Video
+        </button>
+        <button 
+          className="btn-secondary" 
+          onClick={() => { setDownloadMode('audio'); setShowOptions(true); }}
         >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+          Convert to Audio
+        </button>
+      </div>
+
+      {showOptions && (
+        <div className="options-container">
+          {downloadMode !== 'audio' && (
+            <div id="video-options" className="form-group">
+              <label htmlFor="videoQuality">Kualitas Video:</label>
+              <select 
+                id="videoQuality" 
+                name="videoQuality" 
+                value={videoQuality} 
+                onChange={(e) => setVideoQuality(e.target.value)}
+              >
+                <option value="1080">1080p (Default)</option>
+                <option value="max">Maksimum</option>
+                <option value="2160">2160p</option>
+                <option value="1440">1440p</option>
+                <option value="720">720p</option>
+                <option value="480">480p</option>
+                <option value="360">360p</option>
+                <option value="240">240p</option>
+                <option value="144">144p</option>
+              </select>
+            </div>
+          )}
+          {downloadMode !== 'mute' && (
+            <div id="audio-options" className="form-group">
+              <label htmlFor="audioFormat">Format Audio:</label>
+              <select 
+                id="audioFormat" 
+                name="audioFormat" 
+                value={audioFormat} 
+                onChange={(e) => setAudioFormat(e.target.value)}
+              >
+                <option value="mp3">MP3</option>
+                <option value="best">Terbaik</option>
+                <option value="ogg">OGG</option>
+                <option value="wav">WAV</option>
+                <option value="opus">OPUS</option>
+              </select>
+            </div>
+          )}
+          <button onClick={handleDownload} disabled={loading} className="btn-start">
+            {loading ? 'Processing...' : 'Start Download'}
+          </button>
+        </div>
+      )}
+
+      <div id="results" className="results-container">
+        {renderResult()}
+      </div>
     </div>
   );
 }
