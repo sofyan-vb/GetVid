@@ -6,8 +6,8 @@ import { useState } from 'react';
 type PayloadType = {
   url: string;
   downloadMode: string | null;
-  videoQuality?: string;
-  audioFormat?: string;
+  videoQuality?: string; // Properti opsional
+  audioFormat?: string; // Properti opsional
 };
 
 export default function HomePage() {
@@ -30,6 +30,7 @@ export default function HomePage() {
     setError(null);
     setResult(null);
 
+    // Deklarasikan payload dengan tipe yang benar
     const payload: PayloadType = {
       url: url,
       downloadMode: downloadMode,
