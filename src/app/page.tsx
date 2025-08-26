@@ -2,13 +2,21 @@
 
 import { useState } from 'react';
 
+// Mendefinisikan tipe data untuk payload
+type PayloadType = {
+  url: string;
+  downloadMode: string | null;
+  videoQuality?: string;
+  audioFormat?: string;
+};
+
 export default function HomePage() {
   const [url, setUrl] = useState('');
   const [videoQuality, setVideoQuality] = useState('1080');
   const [audioFormat, setAudioFormat] = useState('mp3');
-  const [result, setResult] = useState(null);
+  const [result, setResult] = useState<any | null>(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null); // PERBAIKAN DI SINI
+  const [error, setError] = useState<string | null>(null);
   const [downloadMode, setDownloadMode] = useState<string | null>(null);
   const [showOptions, setShowOptions] = useState(false);
 
@@ -22,9 +30,9 @@ export default function HomePage() {
     setError(null);
     setResult(null);
 
-    const payload: any = {
+    const payload: PayloadType = {
       url: url,
-      downloadMode: downloadMode
+      downloadMode: downloadMode,
     };
 
     if (downloadMode === 'auto' || downloadMode === 'mute') {
