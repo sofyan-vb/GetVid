@@ -8,8 +8,8 @@ export default function HomePage() {
   const [audioFormat, setAudioFormat] = useState('mp3');
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [downloadMode, setDownloadMode] = useState(null);
+  const [error, setError] = useState<string | null>(null); // PERBAIKAN DI SINI
+  const [downloadMode, setDownloadMode] = useState<string | null>(null);
   const [showOptions, setShowOptions] = useState(false);
 
   const handleDownload = async () => {
@@ -22,7 +22,7 @@ export default function HomePage() {
     setError(null);
     setResult(null);
 
-    const payload = {
+    const payload: any = {
       url: url,
       downloadMode: downloadMode
     };
@@ -52,7 +52,7 @@ export default function HomePage() {
       
       setResult(data);
 
-    } catch (err) {
+    } catch (err: any) {
       setLoading(false);
       setError(err.message);
     }
@@ -87,7 +87,7 @@ export default function HomePage() {
       return (
         <div>
           <h3 className="sub-heading">Pilih file untuk diunduh:</h3>
-          {result.picker.map((item, index) => (
+          {result.picker.map((item: any, index: number) => (
             <div key={index} className="result-item">
               <p>Tipe: {item.type}</p>
               <a 
