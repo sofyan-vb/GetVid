@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 
-ex
 // Mendefinisikan tipe data untuk payload
 type PayloadType = {
   url: string;
