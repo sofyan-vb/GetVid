@@ -22,15 +22,8 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    color: rgb(var(--foreground-rgb));
-    background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-    font-family: 'Poppins', sans-serif;
-
+    background-color: var(--bg-color);
+    color: var(--text-color);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -39,10 +32,6 @@ body {
     padding: 20px;
 }
 
-
-.bg-clip-text {
-  -webkit-background-clip: text;
-}
 
 .container {
     background-color: var(--card-bg-color);
