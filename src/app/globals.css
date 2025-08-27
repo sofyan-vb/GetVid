@@ -79,16 +79,21 @@ input {
 }
 
 
-.input-group:hover input {
-    border-color: var(--highlight-color);
-    box-shadow: 0 0 0 3px rgba(140, 158, 255, 0.4);
-}
-
-.input-group input:focus {
+input:focus {
     outline: none;
     border-color: var(--highlight-color);
     box-shadow: 0 0 0 3px rgba(140, 158, 255, 0.4);
 }
+
+.input-group .icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-color);
+    font-size: 1.2rem;
+}
+
 
 .button-group {
     display: flex;
