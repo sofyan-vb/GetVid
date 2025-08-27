@@ -72,19 +72,22 @@ input {
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-input:focus {
-    outline: none;
+.input-group {
+    margin-bottom: 20px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+
+.input-group:hover input {
     border-color: var(--highlight-color);
     box-shadow: 0 0 0 3px rgba(140, 158, 255, 0.4);
 }
 
-.input-group .icon {
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--text-color);
-    font-size: 1.2rem;
+.input-group input:focus {
+    outline: none;
+    border-color: var(--highlight-color);
+    box-shadow: 0 0 0 3px rgba(140, 158, 255, 0.4);
 }
 
 .button-group {
