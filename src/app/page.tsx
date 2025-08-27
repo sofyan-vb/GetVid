@@ -133,21 +133,17 @@ export default function HomePage() {
         />
       </div>
 
-      <div className="button-group">
-        <button 
-          className="btn-primary" 
-          onClick={() => { setDownloadMode('auto'); setShowOptions(true); }}
-        >
-         Download Video
-        </button>
-        <button 
-          className="btn-secondary" 
-          onClick={() => { setDownloadMode('audio'); setShowOptions(true); }}
-        >
-         Convert to Audio
-        </button>
-      </div>
-
+     <div className="flex flex-col sm:flex-row gap-4">
+          <button className="flex-1 flex items-center justify-center gap-2 py-3 px-6 rounded-full text-white font-semibold shadow-lg transition-all duration-300 bg-gradient-to-br from-[#0ecffa] to-[#0eaaff] hover:from-[#32a3c9] hover:to-[#207d96] focus:outline-none focus:ring-2 focus:ring-[#8c9eff]">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-download"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+            Download Video
+          </button>
+          <button className="flex-1 flex items-center justify-center gap-2 py-3 px-6 rounded-full text-white font-semibold shadow-lg transition-all duration-300 bg-[#1a2735] hover:bg-[#32a3c9] focus:outline-none focus:ring-2 focus:ring-[#8c9eff]">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-headphones"><path d="M12 2a10 10 0 0 0-6.3 17.7A9.43 9.43 0 0 1 4 19c-2.8 0-5 2.2-5 5h-2c0-4.4 3.6-8 8-8s8 3.6 8 8z"/><path d="M22 17.7a10 10 0 0 0-6.3-17.7c-1 0-2 .2-3 .5"/><path d="M16 19a4 4 0 0 1-4 4"/></svg>
+            Convert to Audio
+          </button>
+        </div>
+      
       {showOptions && (
         <div className="options-container">
           {downloadMode !== 'audio' && (
