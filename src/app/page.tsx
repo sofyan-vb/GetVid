@@ -119,7 +119,7 @@ export default function HomePage() {
   return (
     <div className="container">
       <h1 className="heading">GetVid.id</h1>
-      <p className="description">Download videos and audio from various platforms with links</p>
+      <p className="description">Unduh video dan audio dari berbagai platform dengan tautan</p>
 
       <div className="input-group">
         <span className="icon">🔗</span>
