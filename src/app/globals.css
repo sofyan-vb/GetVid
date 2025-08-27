@@ -77,7 +77,7 @@ input {
 input:focus {
     outline: none;
     border-color: var(--highlight-color);
-    box-shadow: 0 0 0 3px rgba(140, 158, 255, 0.4);
+    box-shadow: 0 0 0 3px rgb(0, 179, 255);
 }
 
 .input-group .icon {
