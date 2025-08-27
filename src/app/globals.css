@@ -16,13 +16,10 @@
     --highlight-color: #8c9eff;
 }
 
-.panel {
-  /* Warna hitam (0, 0, 0) dengan opasitas 70% (0.7) */
-  background-color: rgba(0, 0, 0, 0.7); 
-}
+
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: var(--bg-color); /* Latar belakang body tetap solid */
+    background-color: var(--bg-color);
     color: var(--text-color);
     display: flex;
     justify-content: center;
