@@ -2,12 +2,13 @@
 
 import { useState } from 'react';
 
-// Mendefinisikan tipe data untuk payload
+
+
 type PayloadType = {
   url: string;
   downloadMode: string | null;
-  videoQuality?: string; 
-  audioFormat?: string; 
+  videoQuality?: string;
+  audioFormat?: string;
 };
 
 export default function HomePage() {
@@ -118,9 +119,9 @@ export default function HomePage() {
   return (
     <div className="container">
       <h1 className="heading">GetVid.id</h1>
-      <p className="description">Unduh video dan audio dari berbagai platform dengan link.</p>
+      <p className="description">Download videos and audio from various platforms with links</p>
 
-       <div className="input-group">
+      <div className="input-group">
         <span className="icon">🔗</span>
         <input 
           type="url" 
@@ -137,13 +138,13 @@ export default function HomePage() {
           className="btn-primary" 
           onClick={() => { setDownloadMode('auto'); setShowOptions(true); }}
         >
-          Download Video
+         Download Video
         </button>
         <button 
           className="btn-secondary" 
           onClick={() => { setDownloadMode('audio'); setShowOptions(true); }}
         >
-          Convert to Audio
+         Convert to Audio
         </button>
       </div>
 
