@@ -29,16 +29,18 @@ body {
 }
 
 
-.container {
-    background-color: var(--card-bg-color);
-    padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+.input-container {
+    background-color: transparent; /* Membuat latar belakang transparan */
+    border: 1px solid var(--border-color); /* Berikan border agar terlihat */
+    border-radius: 8px;
+    padding: 10px 15px;
     width: 100%;
-    max-width: 650px;
-    box-sizing: border-box;
-    text-align: center;
-    border: 1px solid var(--border-color);
+    max-width: 500px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
 }
 
 h1 {
