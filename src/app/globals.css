@@ -39,6 +39,11 @@ body {
     padding: 20px;
 }
 
+
+.bg-clip-text {
+  -webkit-background-clip: text;
+}
+
 .container {
     background-color: var(--card-bg-color);
     padding: 40px;
